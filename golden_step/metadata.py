@@ -130,16 +130,35 @@ type : str
 units : str
     Optional units for the result. If present, the value should be in these units.
 """
-# metadata["results"] = {
-#     "total_energy": {
-#         "calculation": [
-#             "energy",
-#             "optimization",
-#         ],
-#         "description": "The total energy",
-#         "dimensionality": "scalar",
-#         "property": "total energy#Golden#{model}",
-#         "type": "float",
-#         "units": "E_h",
-#     },
-# }
+metadata["results"] = {
+    "case_name": {
+        "description": "Name of the golden test case",
+        "dimensionality": "scalar",
+        "type": "string",
+    },
+    "mode": {
+        "description": "Mode the Golden Test step ran in",
+        "dimensionality": "scalar",
+        "type": "string",
+    },
+    "passed": {
+        "description": "Whether the verify-mode comparison passed",
+        "dimensionality": "scalar",
+        "type": "boolean",
+    },
+    "n_passes": {
+        "description": "Number of fields that matched the reference",
+        "dimensionality": "scalar",
+        "type": "integer",
+    },
+    "n_failures": {
+        "description": "Number of fields that failed to match",
+        "dimensionality": "scalar",
+        "type": "integer",
+    },
+    "summary": {
+        "description": "Human-readable summary of the test result",
+        "dimensionality": "scalar",
+        "type": "string",
+    },
+}

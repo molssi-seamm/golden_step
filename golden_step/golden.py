@@ -216,4 +216,28 @@ class Golden(seamm.Node):
                 if P["on failure"] == "stop":
                     raise AssertionError("Golden test failed: " + report["summary"])
 
+        data = {
+            "case_name": self._resolve_case_name(P),
+            "mode": mode,
+        }
+
+        # ... existing metrics-build and verify logic populates more ...
+
+        if mode == "verify":
+            # ... existing code that produces `report` ...
+            data["passed"] = report["passed"]
+            data["n_passes"] = report.get("n_passes", 0)
+            data["n_failures"] = report.get("n_failures", 0)
+            data["summary"] = report["summary"]
+
+        # Below the mode block, before return:
+        self.analyze()
+        self.store_results(configuration=configuration, data=data)
+
         return next_node
+
+    def _resolve_case_name(self, P):
+        name = P.get("case name", "")
+        if name:
+            return name
+        return self.title  # falls back to "Golden Test" if never overridden

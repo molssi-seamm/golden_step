@@ -38,7 +38,7 @@ class GoldenParameters(seamm.Parameters):
             "default": "golden_expected.json",
             "kind": "string",
             "default_units": "",
-            "enumeration": tuple("golden_expected.json", ),
+            "enumeration": ("golden_expected.json",),
             "format_string": "",
             "description": "Expected file:",
             "help_text": (
@@ -51,7 +51,7 @@ class GoldenParameters(seamm.Parameters):
             "default": "golden_output.json",
             "kind": "string",
             "default_units": "",
-            "enumeration": tuple("golden_output.json",),
+            "enumeration": ("golden_output.json",),
             "format_string": "",
             "description": "Output file:",
             "help_text": (
@@ -71,6 +71,28 @@ class GoldenParameters(seamm.Parameters):
                 "writes the result file and lets the flowchart proceed. "
                 "'stop' raises an error and halts the flowchart."
             ),
+        },
+        "case name": {
+            "default": "",
+            "kind": "string",
+            "default_units": "",
+            "enumeration": tuple(),
+            "format_string": "",
+            "description": "Case name:",
+            "help_text": (
+                "Identifier for this test case, recorded in the results so it can "
+                "be put into a table when many tests run in one flowchart. "
+                "If left empty, the step's title is used."
+            ),
+        },
+        "results": {
+            "default": {},
+            "kind": "dictionary",
+            "default_units": "",
+            "enumeration": tuple(),
+            "format_string": "",
+            "description": "results",
+            "help_text": "The results to save to variables or in tables.",
         },
     }
 

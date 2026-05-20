@@ -78,10 +78,10 @@ setup(
     ],
     entry_points={
         'org.molssi.seamm': [
-            'Golden = golden_step:GoldenStep',
+            'Golden Test = golden_step:GoldenStep',
         ],
         'org.molssi.seamm.tk': [
-            'Golden = golden_step:GoldenStep',
+            'Golden Test = golden_step:GoldenStep',
         ],
     }
 )

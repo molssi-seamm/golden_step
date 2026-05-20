@@ -114,7 +114,17 @@ class TkGolden(seamm.TkNode):
         TkGolden.reset_dialog
         """
 
-        frame = super().create_dialog(title="Golden")
+        frame = super().create_dialog(title="Golden Test")
+
+        # make it large!
+        screen_w = self.dialog.winfo_screenwidth()
+        screen_h = self.dialog.winfo_screenheight()
+        w = int(0.9 * screen_w)
+        h = int(0.8 * screen_h)
+        x = int(0.05 * screen_w / 2)
+        y = int(0.1 * screen_h / 2)
+
+        self.dialog.geometry(f"{w}x{h}+{x}+{y}")
         # Shortcut for parameters
         P = self.node.parameters
 
@@ -158,6 +168,8 @@ class TkGolden(seamm.TkNode):
         frame = self["frame"]
         for slave in frame.grid_slaves():
             slave.grid_forget()
+
+        frame.columnconfigure(0, weight=1)
 
         # Shortcut for parameters
         P = self.node.parameters
