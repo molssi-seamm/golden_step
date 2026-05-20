@@ -1,15 +1,12 @@
 # -*- coding: utf-8 -*-
 
-"""Non-graphical part of the Golden step in a SEAMM flowchart
-"""
+"""Non-graphical part of the Golden Test step in a SEAMM flowchart"""
 
+import json
 import logging
 from pathlib import Path
-import importlib.resources
-import pprint  # noqa: F401
 
 import golden_step
-import molsystem
 import seamm
 from seamm_util import ureg, Q_  # noqa: F401
 import seamm_util.printing as printing
@@ -25,51 +22,27 @@ from seamm_util.printing import FormattedText as __
 
 logger = logging.getLogger(__name__)
 job = printing.getPrinter()
-printer = printing.getPrinter("Golden")
-
-# Add this module's properties to the standard properties
-path = importlib.resources.files("golden_step") / "data"
-csv_file = path / "properties.csv"
-if path.exists():
-    molsystem.add_properties_from_file(csv_file)
+printer = printing.getPrinter("Golden Test")
 
 
 class Golden(seamm.Node):
     """
-    The non-graphical part of a Golden step in a flowchart.
+    The non-graphical part of a Golden Test step in a flowchart.
 
     Attributes
     ----------
-    parser : configargparse.ArgParser
-        The parser object.
-
-    options : tuple
-        It contains a two item tuple containing the populated namespace and the
-        list of remaining argument strings.
-
-    subflowchart : seamm.Flowchart
-        A SEAMM Flowchart object that represents a subflowchart, if needed.
-
     parameters : GoldenParameters
-        The control parameters for Golden.
+        The control parameters for the Golden Test step.
 
     See Also
     --------
-    TkGolden,
-    Golden, GoldenParameters
+    TkGolden, GoldenParameters
     """
 
     def __init__(
-        self,
-        flowchart=None,
-        title="Golden",
-        extension=None,
-        logger=logger
+        self, flowchart=None, title="Golden Test", extension=None, logger=logger
     ):
-        """A step for Golden in a SEAMM flowchart.
-
-        You may wish to change the title above, which is the string displayed
-        in the box representing the step in the flowchart.
+        """A Golden Test step in a SEAMM flowchart.
 
         Parameters
         ----------
@@ -87,11 +60,11 @@ class Golden(seamm.Node):
         -------
         None
         """
-        logger.debug(f"Creating Golden {self}")
+        logger.debug(f"Creating Golden Test step {self}")
 
         super().__init__(
             flowchart=flowchart,
-            title="Golden",
+            title="Golden Test",
             extension=extension,
             module=__name__,
             logger=logger,
@@ -128,15 +101,30 @@ class Golden(seamm.Node):
         if not P:
             P = self.parameters.values_to_dict()
 
-        text = (
-            "Please replace this with a short summary of the "
-            "Golden step, including key parameters."
-        )
+        mode = P["mode"]
+        if mode == "skip":
+            text = "Skip the Golden Test step (no output written)."
+        elif mode == "record":
+            text = ("Snapshot the current system to '{output_file}'.").format(
+                output_file=P["output file"]
+            )
+        elif mode == "verify":
+            text = (
+                "Snapshot the current system to '{output_file}' and compare "
+                "against the reference '{expected_file}'. On a mismatch, "
+                "'{on_failure}'."
+            ).format(
+                output_file=P["output file"],
+                expected_file=P["expected file"],
+                on_failure=P["on failure"],
+            )
+        else:
+            text = "Unrecognised mode '{}'.".format(mode)
 
         return self.header + "\n" + __(text, **P, indent=4 * " ").__str__()
 
     def run(self):
-        """Run a Golden step.
+        """Run a Golden Test step.
 
         Parameters
         ----------
@@ -156,59 +144,76 @@ class Golden(seamm.Node):
         # Print what we are doing
         printer.important(__(self.description_text(P), indent=self.indent))
 
+        mode = P["mode"]
+        if mode == "skip":
+            printer.normal(__("Skipping (mode='skip').", indent=4 * " ", wrap=False))
+            return next_node
+
         directory = Path(self.directory)
         directory.mkdir(parents=True, exist_ok=True)
 
-        # Get the current system and configuration (ignoring the system...)
+        # Get the current system and configuration
         _, configuration = self.get_system_configuration(None)
 
-        # Results data
-        data = {}
+        # Build the metrics dictionary (pure function; see metrics.py)
+        from .metrics import build_metrics
 
-        # Temporary code just to print the parameters. You will need to change
-        # this!
-        for key in P:
-            print("{:>15s} = {}".format(key, P[key]))
-            printer.normal(
-                __(
-                    "{key:>15s} = {value}",
-                    key=key,
-                    value=P[key],
-                    indent=4 * " ",
-                    wrap=False,
-                    dedent=False,
-                )
-            )
+        metrics = build_metrics(configuration, step_name="golden")
 
-        # Analyze the results
-        self.analyze()
-        # Put any requested results into variables or tables
-        self.store_results(
-            configuration=configuration,
-            data=data,
-        )
-        # Add other citations here or in the appropriate place in the code.
-        # Add the bibtex to data/references.bib, and add a self.reference.cite
-        # similar to the above to actually add the citation to the references.
-
-        return next_node
-
-    def analyze(self, indent="", **kwargs):
-        """Do any analysis of the output from this step.
-
-        Also print important results to the local step.out file using
-        "printer".
-
-        Parameters
-        ----------
-        indent: str
-            An extra indentation for the output
-        """
+        # Write golden_output.json
+        output_path = directory / P["output file"]
+        output_path.write_text(json.dumps(metrics, indent=2))
         printer.normal(
             __(
-                "This is a placeholder for the results from the Golden step",
+                "Wrote metrics to {path}",
+                path=output_path,
                 indent=4 * " ",
-                wrap=True,
-                dedent=False,
+                wrap=False,
             )
         )
+
+        if mode == "verify":
+            # Locate golden_expected.json relative to the flowchart directory
+            expected_path = Path(P["expected file"])
+            if not expected_path.is_absolute():
+                expected_path = Path(self.flowchart.path).parent / expected_path
+
+            if not expected_path.exists():
+                msg = "Expected file not found: {}".format(expected_path)
+                printer.important(__(msg, indent=4 * " ", wrap=False))
+                if P["on failure"] == "stop":
+                    raise FileNotFoundError(msg)
+                return next_node
+
+            expected = json.loads(expected_path.read_text())
+
+            from .compare import compare
+
+            report = compare(expected, metrics)
+
+            result_path = directory / "golden_result.json"
+            result_path.write_text(json.dumps(report, indent=2))
+
+            if report["passed"]:
+                printer.important(
+                    __(
+                        "Golden test PASSED ({summary}).",
+                        summary=report["summary"],
+                        indent=4 * " ",
+                        wrap=False,
+                    )
+                )
+            else:
+                printer.important(
+                    __(
+                        "Golden test FAILED ({summary}). See {path}.",
+                        summary=report["summary"],
+                        path=result_path,
+                        indent=4 * " ",
+                        wrap=False,
+                    )
+                )
+                if P["on failure"] == "stop":
+                    raise AssertionError("Golden test failed: " + report["summary"])
+
+        return next_node

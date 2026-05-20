@@ -19,7 +19,7 @@ class GoldenStep(object):
             It contains the following keys: description, group, name.
 
         my_description["description"] : tuple
-            A description of the Golden step. It must be
+            A description of the Golden Test step. It must be
             clear to non-experts.
 
         my_description["group"] : str
@@ -32,9 +32,12 @@ class GoldenStep(object):
     """
 
     my_description = {
-        "description": "An interface for Golden",
-        "group": "Simulations",
-        "name": "Golden",
+        "description": (
+            "Snapshot the current system to a JSON file and optionally verify "
+            "it against a reference. Used for golden testing of SEAMM plug-ins."
+        ),
+        "group": "Testing",
+        "name": "Golden Test",
     }
 
     def __init__(self, flowchart=None, gui=None):

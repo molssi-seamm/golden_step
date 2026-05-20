@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Control parameters for the Golden step in a SEAMM flowchart
+Control parameters for the Golden Test step in a SEAMM flowchart
 """
 
 import logging
@@ -12,87 +12,66 @@ logger = logging.getLogger(__name__)
 
 class GoldenParameters(seamm.Parameters):
     """
-    The control parameters for Golden.
-
-    You need to replace the "time" entry in dictionary below these comments with the
-    definitions of parameters to control this step. The keys are parameters for the
-    current plugin,the values are dictionaries as outlined below.
-
-    Examples
-    --------
-    ::
-
-        parameters = {
-            "time": {
-                "default": 100.0,
-                "kind": "float",
-                "default_units": "ps",
-                "enumeration": tuple(),
-                "format_string": ".1f",
-                "description": "Simulation time:",
-                "help_text": ("The time to simulate in the dynamics run.")
-            },
-        }
-
-    parameters : {str: {str: str}}
-        A dictionary containing the parameters for the current step.
-        Each key of the dictionary is a dictionary that contains the
-        the following keys:
-
-    parameters["default"] :
-        The default value of the parameter, used to reset it.
-
-    parameters["kind"] : enum()
-        Specifies the kind of a variable. One of  "integer", "float", "string",
-        "boolean", or "enum"
-
-        While the "kind" of a variable might be a numeric value, it may still have
-        enumerated custom values meaningful to the user. For instance, if the parameter
-        is a convergence criterion for an optimizer, custom values like "normal",
-        "precise", etc, might be adequate. In addition, any parameter can be set to a
-        variable of expression, indicated by having "$" as the first character in the
-        field. For example, $OPTIMIZER_CONV.
-
-    parameters["default_units"] : str
-        The default units, used for resetting the value.
-
-    parameters["enumeration"] : tuple
-        A tuple of enumerated values.
-
-    parameters["format_string"] : str
-        A format string for "pretty" output.
-
-    parameters["description"] : str
-        A short string used as a prompt in the GUI.
-
-    parameters["help_text"] : str
-        A longer string to display as help for the user.
+    The control parameters for the Golden Test step.
 
     See Also
     --------
-    Golden, TkGolden, Golden GoldenParameters, GoldenStep
+    Golden, TkGolden, GoldenStep
     """
 
     parameters = {
-        "time": {
-            "default": 100.0,
-            "kind": "float",
-            "default_units": "ps",
-            "enumeration": tuple(),
-            "format_string": ".1f",
-            "description": "Simulation time:",
-            "help_text": ("The time to simulate in the dynamics run."),
+        "mode": {
+            "default": "record",
+            "kind": "enum",
+            "default_units": "",
+            "enumeration": ("record", "verify", "skip"),
+            "format_string": "",
+            "description": "Mode:",
+            "help_text": (
+                "What the Golden Test step should do. 'record' writes a "
+                "metrics snapshot of the current system to a JSON file. "
+                "'verify' does the same and then compares the snapshot "
+                "against a reference file. 'skip' does nothing."
+            ),
         },
-        # # Results handling ... uncomment if needed
-        # "results": {
-        #     "default": {},
-        #     "kind": "dictionary",
-        #     "default_units": "",
-        #     "enumeration": tuple(),
-        #     "format_string": "",
-        #     "description": "results",
-        #     "help_text": "The results to save to variables or in tables.",
-        # },
+        "expected file": {
+            "default": "golden_expected.json",
+            "kind": "string",
+            "default_units": "",
+            "enumeration": tuple(),
+            "format_string": "",
+            "description": "Expected file:",
+            "help_text": (
+                "Path to the reference JSON file used in 'verify' mode. "
+                "If the path is relative it is resolved against the "
+                "flowchart's directory."
+            ),
+        },
+        "output file": {
+            "default": "golden_output.json",
+            "kind": "string",
+            "default_units": "",
+            "enumeration": tuple(),
+            "format_string": "",
+            "description": "Output file:",
+            "help_text": (
+                "Filename for the metrics snapshot written by this step "
+                "in the step's working directory."
+            ),
+        },
+        "on failure": {
+            "default": "continue",
+            "kind": "enum",
+            "default_units": "",
+            "enumeration": ("continue", "stop"),
+            "format_string": "",
+            "description": "On verify failure:",
+            "help_text": (
+                "What to do if a 'verify'-mode comparison fails. 'continue' "
+                "writes the result file and lets the flowchart proceed. "
+                "'stop' raises an error and halts the flowchart."
+            ),
+        },
     }
 
     def __init__(self, defaults={}, data=None):
