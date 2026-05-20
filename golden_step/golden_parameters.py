@@ -38,7 +38,7 @@ class GoldenParameters(seamm.Parameters):
             "default": "golden_expected.json",
             "kind": "string",
             "default_units": "",
-            "enumeration": tuple(),
+            "enumeration": tuple("golden_expected.json", ),
             "format_string": "",
             "description": "Expected file:",
             "help_text": (
@@ -51,7 +51,7 @@ class GoldenParameters(seamm.Parameters):
             "default": "golden_output.json",
             "kind": "string",
             "default_units": "",
-            "enumeration": tuple(),
+            "enumeration": tuple("golden_output.json",),
             "format_string": "",
             "description": "Output file:",
             "help_text": (
