@@ -7,6 +7,8 @@ import logging
 from pathlib import Path
 
 import golden_step
+from .metrics import build_metrics
+from .compare import compare
 import seamm
 from seamm_util import ureg, Q_  # noqa: F401
 import seamm_util.printing as printing
@@ -156,12 +158,12 @@ class Golden(seamm.Node):
         _, configuration = self.get_system_configuration(None)
 
         # Build the metrics dictionary (pure function; see metrics.py)
-        from .metrics import build_metrics
 
         metrics = build_metrics(configuration, step_name="golden")
 
         # Write golden_output.json
-        output_path = directory / P["output file"]
+        # output_path = directory / P["output file"]
+        output_path = self.file_path(P["output file"])
         output_path.write_text(json.dumps(metrics, indent=2))
         printer.normal(
             __(
@@ -174,9 +176,7 @@ class Golden(seamm.Node):
 
         if mode == "verify":
             # Locate golden_expected.json relative to the flowchart directory
-            expected_path = Path(P["expected file"])
-            if not expected_path.is_absolute():
-                expected_path = Path(self.flowchart.path).parent / expected_path
+            expected_path = self.file_path(P["expected file"])
 
             if not expected_path.exists():
                 msg = "Expected file not found: {}".format(expected_path)
@@ -186,8 +186,6 @@ class Golden(seamm.Node):
                 return next_node
 
             expected = json.loads(expected_path.read_text())
-
-            from .compare import compare
 
             report = compare(expected, metrics)
 
