@@ -1,0 +1,69 @@
+golden\_step package
+====================
+
+Submodules
+----------
+
+golden\_step.compare module
+---------------------------
+
+.. automodule:: golden_step.compare
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+golden\_step.golden module
+--------------------------
+
+.. automodule:: golden_step.golden
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+golden\_step.golden\_parameters module
+--------------------------------------
+
+.. automodule:: golden_step.golden_parameters
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+golden\_step.golden\_step module
+--------------------------------
+
+.. automodule:: golden_step.golden_step
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+golden\_step.metadata module
+----------------------------
+
+.. automodule:: golden_step.metadata
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+golden\_step.metrics module
+---------------------------
+
+.. automodule:: golden_step.metrics
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+golden\_step.tk\_golden module
+------------------------------
+
+.. automodule:: golden_step.tk_golden
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+Module contents
+---------------
+
+.. automodule:: golden_step
+   :members:
+   :show-inheritance:
+   :undoc-members:

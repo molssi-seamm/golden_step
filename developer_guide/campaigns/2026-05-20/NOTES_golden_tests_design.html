@@ -1,0 +1,1155 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Golden Tests for SEAMM Plug-ins: Design Notes &#8212; SEAMM Golden Plug-in 2026.7.28 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=c224919a" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../../_static/scripts/fontawesome.js?digest=90905a2f556bf617f1a9"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
+
+    <script src="../../../_static/documentation_options.js?v=197c1917"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'developer_guide/campaigns/2026-05-20/NOTES_golden_tests_design';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="API Documentation" href="../../../api/index.html" />
+    <link rel="prev" title="2026-05-20 Initial development campaign" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="2026.7.28" />
+  
+    
+    <script src="../../../_static/searchtools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <script src="../../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/SEAMM logo.png" class="logo__image only-light" alt=""/>
+    <img src="../../../_static/SEAMM Inverted 288x181.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">Golden</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting_started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../user_guide/index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API Documentation
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../authors.html">
+    Development Team
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../history.html">
+    History
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://molssi-seamm.github.io">
+    Main SEAMM documentation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://molssi-seamm.github.io">
+    SEAMM Documentation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://molssi.org">
+    MolSSI
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/molssi-seamm/geometry_analysis_step" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://twitter.com/MolSSI_NSF" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-twitter fa-lg" aria-hidden="true"></i><span class="visually-hidden">Twitter</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting_started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../user_guide/index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../authors.html">
+    Development Team
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../history.html">
+    History
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://molssi-seamm.github.io">
+    Main SEAMM documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://molssi-seamm.github.io">
+    SEAMM Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://molssi.org">
+    MolSSI
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/molssi-seamm/geometry_analysis_step" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://twitter.com/MolSSI_NSF" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-twitter fa-lg" aria-hidden="true"></i><span class="visually-hidden">Twitter</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item pst-sidebar-collapse"><button id="pst-collapse-sidebar-button" aria-expanded="true" aria-controls="pst-primary-sidebar">
+  <svg class="pst-icon" role="img" aria-hidden="true" focusable="false" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path fill="currentColor" d="M3 15.5C2.36232 15.5 1.74874 15.2564 1.28478 14.8189C0.820828 14.3815 0.541576 13.7832 0.504167 13.1467L0.5 13L0.5 3C0.499965 2.36232 0.743605 1.74874 1.18107 1.28478C1.61854 0.820828 2.21676 0.541576 2.85333 0.504167L3 0.5L13 0.5C13.6377 0.499965 14.2513 0.743605 14.7152 1.18107C15.1792 1.61854 15.4584 2.21676 15.4958 2.85333L15.5 3L15.5 13C15.5 13.6377 15.2564 14.2513 14.8189 14.7152C14.3815 15.1792 13.7832 15.4584 13.1467 15.4958L13 15.5L3 15.5ZM3 13.8333L10.5 13.8333L10.5 2.16667L3 2.16667C2.79589 2.16669 2.59889 2.24163 2.44636 2.37726C2.29383 2.5129 2.19638 2.69979 2.1725 2.9025L2.16667 3L2.16667 13C2.16669 13.2041 2.24163 13.4011 2.37726 13.5536C2.5129 13.7062 2.69979 13.8036 2.9025 13.8275L3 13.8333ZM6.65583 10.325L6.5775 10.2558L4.91083 8.58917C4.76735 8.44567 4.68116 8.25476 4.66843 8.05223C4.65569 7.84971 4.71729 7.6495 4.84167 7.48917L4.91083 7.41083L6.5775 5.74417C6.72747 5.59471 6.9287 5.50794 7.14032 5.50148C7.35194 5.49502 7.55809 5.56935 7.7169 5.70937C7.8757 5.8494 7.97525 6.04463 7.99533 6.25539C8.01541 6.46616 7.95451 6.67667 7.825 6.84417L7.75583 6.9225L6.67917 8L7.75583 9.0775C7.89931 9.22099 7.98551 9.41191 7.99824 9.61443C8.01097 9.81695 7.94938 10.0172 7.825 10.1775L7.75583 10.2558C7.61234 10.3993 7.42142 10.4855 7.2189 10.4982C7.01638 10.511 6.81617 10.4494 6.65583 10.325Z"/>
+  </svg>
+  <span class="pst-collapse-sidebar-label">Collapse Sidebar</span>
+  <span class="pst-expand-sidebar-label">Expand Sidebar</span>
+</button></div>
+        <div class="sidebar-primary-item">
+
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../index.html">Campaigns</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="index.html">2026-05-20 Initial development campaign</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">Golden Tests for SEAMM Plug-ins: Design Notes</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Developer Documentation</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Campaigns</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">2026-05-20 Initial development campaign</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Golden Tests for SEAMM Plug-ins: Design Notes</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="golden-tests-for-seamm-plug-ins-design-notes">
+<h1>Golden Tests for SEAMM Plug-ins: Design Notes<a class="headerlink" href="#golden-tests-for-seamm-plug-ins-design-notes" title="Link to this heading">#</a></h1>
+<dl class="field-list simple">
+<dt class="field-odd">Status<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Draft</p>
+</dd>
+<dt class="field-even">Date<span class="colon">:</span></dt>
+<dd class="field-even"><p>2026-05-20</p>
+</dd>
+<dt class="field-odd">Scope<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Initial focus on <code class="docutils literal notranslate"><span class="pre">packmol_step</span></code>; intended to generalize.</p>
+</dd>
+</dl>
+<section id="purpose">
+<h2>Purpose<a class="headerlink" href="#purpose" title="Link to this heading">#</a></h2>
+<p>Two related but distinct goals share infrastructure but are managed
+separately:</p>
+<ol class="arabic simple">
+<li><p><strong>Golden tests.</strong> A small, curated set of (flowchart, reference output)
+pairs that runs in CI and catches regressions. Each test is a maintenance
+commitment.</p></li>
+<li><p><strong>ML training corpus.</strong> A larger set of (natural-language query, flowchart)
+pairs used to train a model that maps queries to flowcharts. Every example
+must be <em>correct</em> (its flowchart actually does what the query says), but
+not every example becomes a permanent golden test.</p></li>
+</ol>
+<p>The golden test set anchors correctness. The training corpus reuses the
+same flowchart format, the same Golden Test step, and the same comparator
+for spot-checking, but is regenerable rather than maintained-in-place when
+implementations drift.</p>
+<p>This document covers the golden test infrastructure. The training corpus
+workflow is a future extension.</p>
+</section>
+<section id="scope-plan">
+<h2>Scope plan<a class="headerlink" href="#scope-plan" title="Link to this heading">#</a></h2>
+<p>Build in this order:</p>
+<ol class="arabic simple">
+<li><p>The Golden Test step (generic, plug-in agnostic).</p></li>
+<li><p>One Packmol golden test end-to-end (water box).</p></li>
+<li><p>The comparator library (used by both the step and the pytest harness).</p></li>
+<li><p>The Packmol corpus: ~15 cases covering the feature matrix, plus one
+<code class="docutils literal notranslate"><span class="pre">From</span> <span class="pre">SMILES</span></code> + Packmol case (exercises <code class="docutils literal notranslate"><span class="pre">source:</span> <span class="pre">&quot;configuration&quot;</span></code>)
+and one forcefield-assignment case.</p></li>
+<li><p>Apply to one more plug-in (likely MOPAC) to discover where the schema
+actually needs to flex. Expect one schema refinement here.</p></li>
+<li><p>ML training corpus workflow.</p></li>
+</ol>
+</section>
+<section id="directory-layout">
+<h2>Directory layout<a class="headerlink" href="#directory-layout" title="Link to this heading">#</a></h2>
+<p>Tests live with the plug-in they exercise. For <code class="docutils literal notranslate"><span class="pre">packmol_step</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">packmol_step</span><span class="o">/</span>
+    <span class="n">tests</span><span class="o">/</span>
+        <span class="n">golden</span><span class="o">/</span>
+            <span class="n">water_box</span><span class="o">/</span>
+                <span class="n">query</span><span class="o">.</span><span class="n">txt</span>              <span class="c1"># one-paragraph NL description</span>
+                <span class="n">flowchart</span><span class="o">.</span><span class="n">flow</span>         <span class="c1"># the SEAMM flowchart</span>
+                <span class="n">golden_expected</span><span class="o">.</span><span class="n">json</span>   <span class="c1"># reference metrics + tolerances</span>
+                <span class="n">inputs</span><span class="o">/</span>                <span class="c1"># structures, forcefields, etc.</span>
+                <span class="n">README</span><span class="o">.</span><span class="n">rst</span>             <span class="c1"># what is being tested, by whom, when</span>
+            <span class="n">lipf6_ec_dmc_1M</span><span class="o">/</span>
+                <span class="o">...</span>
+            <span class="n">test_golden</span><span class="o">.</span><span class="n">py</span>             <span class="c1"># pytest entry that walks cases</span>
+</pre></div>
+</div>
+<p>The pytest entry is one file per plug-in; it iterates the <code class="docutils literal notranslate"><span class="pre">golden/</span></code>
+subdirectories, runs each flowchart, and compares.</p>
+<p>Later, when flowcharts span multiple plug-ins (real workflows), the same
+layout applies to whichever repository owns the integration test. The
+case may contain several Golden Test steps in the flowchart, or just one
+at the end; either is fine.</p>
+</section>
+<section id="the-golden-test-step">
+<h2>The Golden Test step<a class="headerlink" href="#the-golden-test-step" title="Link to this heading">#</a></h2>
+<section id="name">
+<h3>Name<a class="headerlink" href="#name" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Python package: <code class="docutils literal notranslate"><span class="pre">golden_step</span></code></p></li>
+<li><p>User-facing name in the SEAMM GUI: “Golden Test”</p></li>
+<li><p>Files written:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">golden_output.json</span></code> — what the step actually observed (always)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">golden_result.json</span></code> — comparison report (verify mode only)</p></li>
+</ul>
+</li>
+</ul>
+<p>The reference file the test author commits is <code class="docutils literal notranslate"><span class="pre">golden_expected.json</span></code>.
+All three filenames share the <code class="docutils literal notranslate"><span class="pre">golden_</span></code> prefix so they sort together
+in a directory listing and their purpose is obvious to developers.</p>
+<p>Picking “Golden Test” as the GUI name over “Metrics” avoids confusion
+with performance metrics, telemetry, or property metrics.</p>
+</section>
+<section id="modes">
+<h3>Modes<a class="headerlink" href="#modes" title="Link to this heading">#</a></h3>
+<p>The step has one parameter <code class="docutils literal notranslate"><span class="pre">mode</span></code> with three values:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">record</span></code></dt><dd><p>Compute the metrics for the current system + selected properties.
+Write <code class="docutils literal notranslate"><span class="pre">golden_output.json</span></code> to the job directory. Always succeed
+unless a metric cannot be computed.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">verify</span></code></dt><dd><p>Do everything <code class="docutils literal notranslate"><span class="pre">record</span></code> does. Then load <code class="docutils literal notranslate"><span class="pre">golden_expected.json</span></code>
+from the path given by the <code class="docutils literal notranslate"><span class="pre">expected</span> <span class="pre">file</span></code> parameter (default:
+<code class="docutils literal notranslate"><span class="pre">golden_expected.json</span></code> in the flowchart directory). Compare.
+Write a diff report to <code class="docutils literal notranslate"><span class="pre">golden_result.json</span></code>. Optionally fail the
+flowchart if the <code class="docutils literal notranslate"><span class="pre">on</span> <span class="pre">failure</span></code> parameter is set to <code class="docutils literal notranslate"><span class="pre">stop</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">skip</span></code></dt><dd><p>Do nothing. Useful for keeping the step in a flowchart that is
+being run for non-test purposes.</p>
+</dd>
+</dl>
+<p>Behavior in verify mode is identical between in-flowchart and
+out-of-flowchart use: in both cases the step writes <code class="docutils literal notranslate"><span class="pre">golden_output.json</span></code>
+and the comparator (a library) consumes it. The only difference is who
+calls the comparator (the step itself vs. the pytest harness).</p>
+</section>
+<section id="parameters">
+<h3>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">mode</span></code>: one of <code class="docutils literal notranslate"><span class="pre">record</span></code>, <code class="docutils literal notranslate"><span class="pre">verify</span></code>, <code class="docutils literal notranslate"><span class="pre">skip</span></code>. Default <code class="docutils literal notranslate"><span class="pre">record</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">expected</span> <span class="pre">file</span></code>: path to <code class="docutils literal notranslate"><span class="pre">golden_expected.json</span></code>. Default
+<code class="docutils literal notranslate"><span class="pre">golden_expected.json</span></code> in the flowchart directory.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">output</span> <span class="pre">file</span></code>: path for <code class="docutils literal notranslate"><span class="pre">golden_output.json</span></code>. Default
+<code class="docutils literal notranslate"><span class="pre">golden_output.json</span></code> in the job directory.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">include</span></code>: list of section names to include in metrics. Default all
+of <code class="docutils literal notranslate"><span class="pre">system</span></code>, <code class="docutils literal notranslate"><span class="pre">components</span></code>, <code class="docutils literal notranslate"><span class="pre">derived</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">properties</span></code>: list of named properties from the SEAMM property
+database to include in <code class="docutils literal notranslate"><span class="pre">step_specific</span></code>. Default empty.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">on</span> <span class="pre">failure</span></code>: one of <code class="docutils literal notranslate"><span class="pre">continue</span></code> (default), <code class="docutils literal notranslate"><span class="pre">stop</span></code>. Whether a
+verify failure halts the flowchart.</p></li>
+</ul>
+</section>
+<section id="smiles-policy">
+<h3>SMILES policy<a class="headerlink" href="#smiles-policy" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>All SMILES in <code class="docutils literal notranslate"><span class="pre">golden_*.json</span></code> are <em>isomeric, canonical</em> SMILES
+produced by RDKit
+(<code class="docutils literal notranslate"><span class="pre">Chem.MolToSmiles(mol,</span> <span class="pre">isomericSmiles=True,</span> <span class="pre">canonical=True)</span></code>).</p></li>
+<li><p>The Golden Test step canonicalizes internally on output, regardless of
+what the rest of SEAMM produced. This keeps the test artifact stable
+even if SEAMM’s default SMILES output changes.</p></li>
+<li><p>Whether to change SEAMM’s <em>general</em> default to canonical SMILES is a
+separate question; it does not block golden tests.</p></li>
+<li><p>For systems where SMILES is unreliable (organometallics, some
+zwitterions) or undefined (crystals, periodic non-molecular systems),
+the <code class="docutils literal notranslate"><span class="pre">smiles</span></code> field is <code class="docutils literal notranslate"><span class="pre">null</span></code> and identification falls back to
+<code class="docutils literal notranslate"><span class="pre">formula</span></code> plus any other distinguishing fields (spacegroup, cell
+parameters, residue name).</p></li>
+</ul>
+</section>
+</section>
+<section id="metrics-schema">
+<h2>Metrics schema<a class="headerlink" href="#metrics-schema" title="Link to this heading">#</a></h2>
+<section id="top-level">
+<h3>Top-level<a class="headerlink" href="#top-level" title="Link to this heading">#</a></h3>
+<p>Every <code class="docutils literal notranslate"><span class="pre">golden_output.json</span></code> has these top-level keys:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;schema_version&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="s2">&quot;step&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;plugin name, e.g. &#39;packmol&#39;&gt;&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;system&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="o">...</span> <span class="p">},</span>
+  <span class="s2">&quot;components&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="o">...</span> <span class="p">],</span>
+  <span class="s2">&quot;derived&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="o">...</span> <span class="p">},</span>
+  <span class="s2">&quot;step_specific&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="o">...</span> <span class="p">}</span>    <span class="c1"># optional</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">schema_version</span></code> is incremented when a backwards-incompatible change
+is made. The comparator dispatches on this field.</p>
+</section>
+<section id="system">
+<h3><code class="docutils literal notranslate"><span class="pre">system</span></code><a class="headerlink" href="#system" title="Link to this heading">#</a></h3>
+<p>Properties of the resulting system as a whole:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;system&quot;</span><span class="p">:</span> <span class="p">{</span>
+  <span class="s2">&quot;periodic&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+  <span class="s2">&quot;dimensionality&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+  <span class="s2">&quot;n_atoms&quot;</span><span class="p">:</span> <span class="mi">3000</span><span class="p">,</span>
+  <span class="s2">&quot;n_bonds&quot;</span><span class="p">:</span> <span class="mi">2954</span><span class="p">,</span>
+  <span class="s2">&quot;n_residues&quot;</span><span class="p">:</span> <span class="mi">301</span><span class="p">,</span>
+  <span class="s2">&quot;charge&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="s2">&quot;spin_multiplicity&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="s2">&quot;cell&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">33.02</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">33.02</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">:</span> <span class="mf">33.02</span><span class="p">,</span>
+    <span class="s2">&quot;alpha&quot;</span><span class="p">:</span> <span class="mf">90.0</span><span class="p">,</span> <span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="mf">90.0</span><span class="p">,</span> <span class="s2">&quot;gamma&quot;</span><span class="p">:</span> <span class="mf">90.0</span><span class="p">,</span>
+    <span class="s2">&quot;volume&quot;</span><span class="p">:</span> <span class="mf">35993.0</span><span class="p">,</span>
+    <span class="s2">&quot;lengths_units&quot;</span><span class="p">:</span> <span class="s2">&quot;Å&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;angles_units&quot;</span><span class="p">:</span> <span class="s2">&quot;degree&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;volume_units&quot;</span><span class="p">:</span> <span class="s2">&quot;Å^3&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>For non-periodic systems, <code class="docutils literal notranslate"><span class="pre">cell</span></code> is replaced by <code class="docutils literal notranslate"><span class="pre">bounding_box</span></code> (a/b/c
+only, no angles). For 0D systems (a single cluster), this still gives
+something useful.</p>
+</section>
+<section id="components">
+<h3><code class="docutils literal notranslate"><span class="pre">components</span></code><a class="headerlink" href="#components" title="Link to this heading">#</a></h3>
+<p>A list, one entry per chemically distinct component:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;components&quot;</span><span class="p">:</span> <span class="p">[</span>
+  <span class="p">{</span>
+    <span class="s2">&quot;smiles&quot;</span><span class="p">:</span> <span class="s2">&quot;[Li+]&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;formula&quot;</span><span class="p">:</span> <span class="s2">&quot;Li&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;count&quot;</span><span class="p">:</span> <span class="mi">22</span><span class="p">,</span>
+    <span class="s2">&quot;mass_g_per_mol&quot;</span><span class="p">:</span> <span class="mf">6.941</span><span class="p">,</span>
+    <span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;fluid&quot;</span>
+  <span class="p">},</span>
+  <span class="o">...</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>Order in the list matters only for human readability; the comparator
+matches entries by <code class="docutils literal notranslate"><span class="pre">smiles</span></code> (or <code class="docutils literal notranslate"><span class="pre">formula</span></code> if <code class="docutils literal notranslate"><span class="pre">smiles</span></code> is null).
+A given identifier must appear exactly once. If two components in
+<code class="docutils literal notranslate"><span class="pre">golden_expected.json</span></code> have the same SMILES, that is an authoring
+error; the comparator should reject it.</p>
+<p><code class="docutils literal notranslate"><span class="pre">role</span></code> mirrors what the originating step called the component:
+<code class="docutils literal notranslate"><span class="pre">solute</span></code>, <code class="docutils literal notranslate"><span class="pre">fluid</span></code>, <code class="docutils literal notranslate"><span class="pre">solvent</span></code>, <code class="docutils literal notranslate"><span class="pre">solid</span></code>, etc. Plug-ins may extend
+the vocabulary; the comparator treats it as a string.</p>
+</section>
+<section id="derived">
+<h3><code class="docutils literal notranslate"><span class="pre">derived</span></code><a class="headerlink" href="#derived" title="Link to this heading">#</a></h3>
+<p>Aggregate quantities computable from <code class="docutils literal notranslate"><span class="pre">system</span></code> + <code class="docutils literal notranslate"><span class="pre">components</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;derived&quot;</span><span class="p">:</span> <span class="p">{</span>
+  <span class="s2">&quot;total_mass_g_per_mol&quot;</span><span class="p">:</span> <span class="mf">26229.8</span><span class="p">,</span>
+  <span class="s2">&quot;density_g_per_mL&quot;</span><span class="p">:</span> <span class="mf">1.210</span><span class="p">,</span>
+  <span class="s2">&quot;molar_ratios&quot;</span><span class="p">:</span>   <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span>    <span class="mf">1.0</span><span class="p">,</span>    <span class="mf">5.909</span><span class="p">,</span> <span class="mf">5.773</span><span class="p">],</span>
+  <span class="s2">&quot;mole_fractions&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0731</span><span class="p">,</span> <span class="mf">0.0731</span><span class="p">,</span> <span class="mf">0.4319</span><span class="p">,</span> <span class="mf">0.4219</span><span class="p">],</span>
+  <span class="s2">&quot;wt_fractions&quot;</span><span class="p">:</span>   <span class="p">[</span><span class="mf">0.0582</span><span class="p">,</span> <span class="mf">0.1216</span><span class="p">,</span> <span class="mf">0.4365</span><span class="p">,</span> <span class="mf">0.4361</span><span class="p">],</span>
+  <span class="s2">&quot;molarities_M&quot;</span><span class="p">:</span>   <span class="p">[</span><span class="mf">1.015</span><span class="p">,</span>  <span class="mf">1.015</span><span class="p">,</span>  <span class="mf">5.997</span><span class="p">,</span>  <span class="mf">5.859</span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>For non-periodic or non-fluid systems, the concentration-like fields are
+omitted (<code class="docutils literal notranslate"><span class="pre">null</span></code> is reserved for “data missing”; absence means “not
+applicable”).</p>
+<p>The arrays in <code class="docutils literal notranslate"><span class="pre">derived</span></code> are aligned with the order of <code class="docutils literal notranslate"><span class="pre">components</span></code>,
+which is the only place positional ordering matters. The comparator
+preserves the SMILES-to-index mapping when comparing.</p>
+</section>
+<section id="step-specific">
+<h3><code class="docutils literal notranslate"><span class="pre">step_specific</span></code><a class="headerlink" href="#step-specific" title="Link to this heading">#</a></h3>
+<p>A free-form dict for plug-in-specific quantities pulled from the
+property database (or computed by the plug-in directly):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;step_specific&quot;</span><span class="p">:</span> <span class="p">{</span>
+  <span class="s2">&quot;dimensions_mode&quot;</span><span class="p">:</span> <span class="s2">&quot;calculated from the density&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;fluid_amount_mode&quot;</span><span class="p">:</span> <span class="s2">&quot;rounding this number of atoms&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;requested_density_g_per_mL&quot;</span><span class="p">:</span> <span class="mf">1.21</span><span class="p">,</span>
+  <span class="s2">&quot;requested_n_atoms&quot;</span><span class="p">:</span> <span class="mi">3000</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Keys here are not part of the schema; they’re whatever the test author
+asked for via the <code class="docutils literal notranslate"><span class="pre">properties</span></code> parameter.</p>
+</section>
+</section>
+<section id="comparator">
+<h2>Comparator<a class="headerlink" href="#comparator" title="Link to this heading">#</a></h2>
+<p>A standalone Python library (<code class="docutils literal notranslate"><span class="pre">golden_step.compare</span></code> or its own package,
+<code class="docutils literal notranslate"><span class="pre">seamm-golden-compare</span></code>), called by:</p>
+<ul class="simple">
+<li><p>the Golden Test step itself in verify mode,</p></li>
+<li><p>the pytest harness for out-of-flowchart testing,</p></li>
+<li><p>a CLI for regeneration and ad-hoc comparison.</p></li>
+</ul>
+<section id="comparison-rules">
+<h3>Comparison rules<a class="headerlink" href="#comparison-rules" title="Link to this heading">#</a></h3>
+<ol class="arabic">
+<li><p>Walk <code class="docutils literal notranslate"><span class="pre">expected</span></code>, looking up the matching node in <code class="docutils literal notranslate"><span class="pre">actual</span></code>.</p></li>
+<li><p>Fields present in <code class="docutils literal notranslate"><span class="pre">actual</span></code> but not in <code class="docutils literal notranslate"><span class="pre">expected</span></code> are silently
+ignored. <strong>Forward compatibility:</strong> new metrics never break old
+tests.</p></li>
+<li><p>Fields present in <code class="docutils literal notranslate"><span class="pre">expected</span></code> but not in <code class="docutils literal notranslate"><span class="pre">actual</span></code> are failures.</p></li>
+<li><p>Lists in <code class="docutils literal notranslate"><span class="pre">components</span></code> match by <code class="docutils literal notranslate"><span class="pre">smiles</span></code> (or <code class="docutils literal notranslate"><span class="pre">formula</span></code>), not
+position. Order differences are not failures.</p></li>
+<li><p>Integers, booleans, and strings: exact match required.</p></li>
+<li><p>Floats: tolerance-based. Defaults: <code class="docutils literal notranslate"><span class="pre">rtol</span> <span class="pre">=</span> <span class="pre">1e-3</span></code>, <code class="docutils literal notranslate"><span class="pre">atol</span> <span class="pre">=</span> <span class="pre">0.0</span></code>.</p></li>
+<li><p>Per-field tolerance overrides via a wrapper:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;density_g_per_mL&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="mf">1.210</span><span class="p">,</span> <span class="s2">&quot;tol&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;rtol&quot;</span><span class="p">:</span> <span class="mf">0.02</span><span class="p">}}</span>
+</pre></div>
+</div>
+<p>A bare number uses defaults; the wrapper form overrides.</p>
+</li>
+<li><p>Arrays of floats: element-wise, with the same tolerance rules.</p></li>
+</ol>
+</section>
+<section id="failure-report">
+<h3>Failure report<a class="headerlink" href="#failure-report" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">golden_result.json</span></code> (written in verify mode) looks like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;passed&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
+  <span class="s2">&quot;schema_version&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="s2">&quot;summary&quot;</span><span class="p">:</span> <span class="s2">&quot;2 failures, 47 passes&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;failures&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;path&quot;</span><span class="p">:</span> <span class="s2">&quot;system.cell.volume&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;expected&quot;</span><span class="p">:</span> <span class="mf">35993.0</span><span class="p">,</span>
+      <span class="s2">&quot;actual&quot;</span><span class="p">:</span> <span class="mf">37200.5</span><span class="p">,</span>
+      <span class="s2">&quot;tolerance&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;rtol&quot;</span><span class="p">:</span> <span class="mf">0.001</span><span class="p">},</span>
+      <span class="s2">&quot;abs_diff&quot;</span><span class="p">:</span> <span class="mf">1207.5</span><span class="p">,</span>
+      <span class="s2">&quot;rel_diff&quot;</span><span class="p">:</span> <span class="mf">0.0335</span>
+    <span class="p">},</span>
+    <span class="o">...</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>For pytest, the harness reads this file and converts to assertion
+errors with the same content.</p>
+</section>
+</section>
+<section id="in-flowchart-vs-out-of-flowchart-testing">
+<h2>In-flowchart vs. out-of-flowchart testing<a class="headerlink" href="#in-flowchart-vs-out-of-flowchart-testing" title="Link to this heading">#</a></h2>
+<p>Both work the same way under the hood; the difference is who initiates
+the run.</p>
+<p><strong>In-flowchart (verify mode in the Golden Test step):</strong> User opens the
+SEAMM GUI, loads <code class="docutils literal notranslate"><span class="pre">flowchart.flow</span></code>, runs it. The Golden Test step at
+the end reports pass/fail in the GUI. Useful for: a user trying a test
+locally, manual debugging, demonstrating a case.</p>
+<p><strong>Out-of-flowchart (pytest harness):</strong> <code class="docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">tests/</span></code> walks the
+<code class="docutils literal notranslate"><span class="pre">golden/</span></code> tree, runs each flowchart programmatically through the
+SEAMM job runner, reads <code class="docutils literal notranslate"><span class="pre">golden_output.json</span></code>, and runs the comparator
+directly. The Golden Test step can be in <code class="docutils literal notranslate"><span class="pre">record</span></code> mode in this path
+(the harness owns the comparison) or <code class="docutils literal notranslate"><span class="pre">verify</span></code> mode (the harness just
+checks the result file). Recommended: <code class="docutils literal notranslate"><span class="pre">record</span></code> mode in CI, so the
+harness has full control.</p>
+<p>The flowchart files in <code class="docutils literal notranslate"><span class="pre">golden/</span></code> should be authored with the Golden
+Test step in <code class="docutils literal notranslate"><span class="pre">verify</span></code> mode by default, so a user running the flowchart
+in the GUI gets pass/fail immediately. The pytest harness can override
+the mode at run time if it wants.</p>
+<section id="harness-pattern">
+<h3>Harness pattern<a class="headerlink" href="#harness-pattern" title="Link to this heading">#</a></h3>
+<p>The pytest harness reuses the pattern already established by
+<code class="docutils literal notranslate"><span class="pre">packmol_step/tests/test_flowcharts.py</span></code>: <code class="docutils literal notranslate"><span class="pre">seamm_exec.run</span></code> is called
+with <code class="docutils literal notranslate"><span class="pre">sys.argv</span></code> monkey-patched to point at the flowchart, and with a
+<code class="docutils literal notranslate"><span class="pre">tmp_path</span></code> working directory. The golden version adds case staging
+(copying <code class="docutils literal notranslate"><span class="pre">inputs/</span></code> into <code class="docutils literal notranslate"><span class="pre">tmp_path</span></code>) and the comparison step:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">seamm_exec</span><span class="w"> </span><span class="kn">import</span> <span class="n">run</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">golden_step.compare</span><span class="w"> </span><span class="kn">import</span> <span class="n">compare</span>
+
+<span class="n">test_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span>
+<span class="n">golden_dir</span> <span class="o">=</span> <span class="n">test_dir</span> <span class="o">/</span> <span class="s2">&quot;golden&quot;</span>
+<span class="n">cases</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">golden_dir</span><span class="o">.</span><span class="n">iterdir</span><span class="p">()</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">is_dir</span><span class="p">())</span>
+
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">golden</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;case_dir&quot;</span><span class="p">,</span> <span class="n">cases</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_golden</span><span class="p">(</span><span class="n">monkeypatch</span><span class="p">,</span> <span class="n">tmp_path</span><span class="p">,</span> <span class="n">case_dir</span><span class="p">):</span>
+    <span class="n">flowchart</span> <span class="o">=</span> <span class="n">case_dir</span> <span class="o">/</span> <span class="s2">&quot;flowchart.flow&quot;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">case_dir</span> <span class="o">/</span> <span class="s2">&quot;inputs&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">copytree</span><span class="p">(</span><span class="n">case_dir</span> <span class="o">/</span> <span class="s2">&quot;inputs&quot;</span><span class="p">,</span> <span class="n">tmp_path</span> <span class="o">/</span> <span class="s2">&quot;inputs&quot;</span><span class="p">)</span>
+
+    <span class="n">monkeypatch</span><span class="o">.</span><span class="n">setattr</span><span class="p">(</span>
+        <span class="s2">&quot;sys.argv&quot;</span><span class="p">,</span>
+        <span class="p">[</span><span class="s2">&quot;testing&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">flowchart</span><span class="p">),</span> <span class="s2">&quot;--standalone&quot;</span><span class="p">],</span>
+    <span class="p">)</span>
+    <span class="n">run</span><span class="p">(</span><span class="n">wdir</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">tmp_path</span><span class="p">))</span>
+
+    <span class="n">actual</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">((</span><span class="n">tmp_path</span> <span class="o">/</span> <span class="s2">&quot;golden_output.json&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">())</span>
+    <span class="n">expected</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">((</span><span class="n">case_dir</span> <span class="o">/</span> <span class="s2">&quot;golden_expected.json&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">())</span>
+    <span class="n">report</span> <span class="o">=</span> <span class="n">compare</span><span class="p">(</span><span class="n">expected</span><span class="p">,</span> <span class="n">actual</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">report</span><span class="p">[</span><span class="s2">&quot;passed&quot;</span><span class="p">]:</span>
+        <span class="p">(</span><span class="n">tmp_path</span> <span class="o">/</span> <span class="s2">&quot;golden_result.json&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span>
+            <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">report</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">fail</span><span class="p">(</span>
+            <span class="n">report</span><span class="p">[</span><span class="s2">&quot;summary&quot;</span><span class="p">]</span>
+            <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">report</span><span class="p">[</span><span class="s2">&quot;failures&quot;</span><span class="p">],</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="p">)</span>
+</pre></div>
+</div>
+<p>The structure mirrors <code class="docutils literal notranslate"><span class="pre">test_flowcharts.py</span></code> deliberately so anyone
+familiar with the existing pattern can read the new tests at sight.</p>
+</section>
+</section>
+<section id="regeneration-and-update-policy">
+<h2>Regeneration and update policy<a class="headerlink" href="#regeneration-and-update-policy" title="Link to this heading">#</a></h2>
+<p>When a <code class="docutils literal notranslate"><span class="pre">golden_expected.json</span></code> no longer matches and the new behavior
+is correct, regenerate with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">seamm</span><span class="o">-</span><span class="n">golden</span> <span class="n">regenerate</span> <span class="o">&lt;</span><span class="n">case</span><span class="o">-</span><span class="n">path</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>This runs the flowchart, copies the resulting <code class="docutils literal notranslate"><span class="pre">golden_output.json</span></code> to
+<code class="docutils literal notranslate"><span class="pre">golden_expected.json</span></code>, preserving any tolerance wrappers (the
+regenerator edits values in place rather than overwriting the file).
+The user must then update the case’s <code class="docutils literal notranslate"><span class="pre">README.rst</span></code> with what changed
+and why.</p>
+<p>CI never regenerates automatically. A failing CI run produces a diff;
+a developer makes the call to either fix the code or run the
+regeneration command and commit the update.</p>
+</section>
+<section id="smiles-caveats-and-fallbacks">
+<h2>SMILES caveats and fallbacks<a class="headerlink" href="#smiles-caveats-and-fallbacks" title="Link to this heading">#</a></h2>
+<p>RDKit’s canonical isomeric SMILES is the primary identifier, but it has
+known soft spots:</p>
+<ul class="simple">
+<li><p><strong>Hypervalent anions</strong> (PF6-, SF6, etc.): RDKit handles the SMILES,
+but Open Babel cannot generate a reasonable 3D structure for them;
+the test flowchart should read such species from a prebuilt
+configuration file rather than building from SMILES. Pin the RDKit
+version in the test environment so canonical-SMILES output is stable.</p></li>
+<li><p><strong>Organometallics</strong>: SMILES often loses bond-order information.
+Use <code class="docutils literal notranslate"><span class="pre">formula</span></code> and any structural fingerprint (residue name, source
+filename hash) as the identifier; set <code class="docutils literal notranslate"><span class="pre">smiles:</span> <span class="pre">null</span></code> if not safe.</p></li>
+<li><p><strong>Crystals and periodic non-molecular systems</strong>: no SMILES at all.
+Identification is by <code class="docutils literal notranslate"><span class="pre">formula</span></code> + cell + spacegroup. The schema’s
+<code class="docutils literal notranslate"><span class="pre">components</span></code> block becomes per-element rather than per-molecule;
+this is a schema extension we will deal with when applying golden
+tests to a crystal-producing plug-in.</p></li>
+<li><p><strong>Tautomers and protonation states</strong>: canonical SMILES picks one;
+if the test should be tolerant of tautomers, the test author needs
+to normalize before comparison. This is rare enough to handle case
+by case rather than in the comparator.</p></li>
+</ul>
+</section>
+<section id="tolerance-defaults-packmol-specific-starting-points">
+<h2>Tolerance defaults (Packmol-specific starting points)<a class="headerlink" href="#tolerance-defaults-packmol-specific-starting-points" title="Link to this heading">#</a></h2>
+<p>These are starting suggestions; refine after the first few cases run.</p>
+<ul class="simple">
+<li><p>Integer counts: exact.</p></li>
+<li><p>Charge: exact.</p></li>
+<li><p>Cell lengths and volume: <code class="docutils literal notranslate"><span class="pre">rtol</span> <span class="pre">=</span> <span class="pre">5e-3</span></code> (Packmol packing has small
+run-to-run variation even with a fixed seed when input file order or
+filesystem behavior differs).</p></li>
+<li><p>Density: <code class="docutils literal notranslate"><span class="pre">rtol</span> <span class="pre">=</span> <span class="pre">5e-3</span></code>.</p></li>
+<li><p>Molarities, mole fractions, weight fractions: <code class="docutils literal notranslate"><span class="pre">rtol</span> <span class="pre">=</span> <span class="pre">1e-2</span></code> (these
+inherit the count rounding plus the cell-volume noise).</p></li>
+<li><p>Bond counts: <code class="docutils literal notranslate"><span class="pre">atol</span> <span class="pre">=</span> <span class="pre">2</span></code> (bond perception from coordinates can flip
+a small number of bonds on/off near cutoffs).</p></li>
+</ul>
+<p>For QM plug-ins, defaults will be much tighter on energies (<code class="docutils literal notranslate"><span class="pre">rtol</span></code>
+of <code class="docutils literal notranslate"><span class="pre">1e-6</span></code> to <code class="docutils literal notranslate"><span class="pre">1e-5</span></code> is realistic on a single machine) but looser
+on derived geometric quantities.</p>
+</section>
+<section id="decisions-resolved">
+<h2>Decisions (resolved)<a class="headerlink" href="#decisions-resolved" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Package name</strong>: <code class="docutils literal notranslate"><span class="pre">golden_step</span></code> (matches <code class="docutils literal notranslate"><span class="pre">&lt;thing&gt;_step</span></code> convention,
+short enough).</p></li>
+<li><p><strong>GUI step name</strong>: “Golden Test”.</p></li>
+<li><p><strong>File names</strong>: <code class="docutils literal notranslate"><span class="pre">golden_output.json</span></code> (what was observed),
+<code class="docutils literal notranslate"><span class="pre">golden_expected.json</span></code> (reference), <code class="docutils literal notranslate"><span class="pre">golden_result.json</span></code>
+(comparison report). All three share the <code class="docutils literal notranslate"><span class="pre">golden_</span></code> prefix so they
+sort together and their role is obvious.</p></li>
+<li><p><strong>Do not write golden-test data to the SEAMM property database.</strong>
+The property store is for chemical science, not test bookkeeping.
+JSON files in the job directory are the only artifact. A separate,
+broader SEAMM enhancement could add a “testing-only” metadata flag
+on properties to keep specialised entries out of default UI views,
+but that is independent of this work.</p></li>
+<li><p><strong>pytest harness</strong>: extend the pattern in
+<code class="docutils literal notranslate"><span class="pre">packmol_step/tests/test_flowcharts.py</span></code> (<code class="docutils literal notranslate"><span class="pre">seamm_exec.run</span></code> with
+monkey-patched <code class="docutils literal notranslate"><span class="pre">sys.argv</span></code>). No new infrastructure needed.</p></li>
+</ol>
+</section>
+<section id="open-questions">
+<h2>Open questions<a class="headerlink" href="#open-questions" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Cross-platform reproducibility of Packmol.</strong> What rtol works on
+both Linux and macOS with the same Packmol version? Determine
+empirically on case 1 before locking defaults.</p></li>
+<li><p><strong>Should canonical SMILES become the SEAMM default?</strong> Not blocking
+golden tests, but worth a separate discussion. Tests will work
+either way because the Golden Test step canonicalizes locally.</p></li>
+<li><p><strong>One step per plug-in, or one generic step?</strong> Currently planned as
+one generic step that snapshots the system + named properties.
+Plug-in-specific richness comes from naming properties at the test
+site, not from subclasses. Revisit after step 5 of the scope plan.</p></li>
+</ol>
+</section>
+<section id="implementation-notes-for-step-1-the-golden-test-step-itself">
+<h2>Implementation notes for step 1 (the Golden Test step itself)<a class="headerlink" href="#implementation-notes-for-step-1-the-golden-test-step-itself" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Model the package on <code class="docutils literal notranslate"><span class="pre">geometry_analysis_step</span></code> rather than
+<code class="docutils literal notranslate"><span class="pre">packmol_step</span></code>; it’s a simpler reference for a step that reads the
+current configuration and writes a file.</p></li>
+<li><p>The metrics computation is pure (system in, dict out). Implement it
+as a free function or a small class with no SEAMM dependencies, so
+it can be unit-tested without instantiating a flowchart.</p></li>
+<li><p>The comparator is also pure (two dicts in, report dict out). Same
+testability argument.</p></li>
+<li><p>The actual SEAMM step is then a thin wrapper that gets the
+configuration, calls the pure functions, and writes files.</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">2026-05-20 Initial development campaign</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../../../api/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">API Documentation</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#purpose">Purpose</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scope-plan">Scope plan</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#directory-layout">Directory layout</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-golden-test-step">The Golden Test step</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#name">Name</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modes">Modes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parameters">Parameters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#smiles-policy">SMILES policy</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metrics-schema">Metrics schema</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#top-level">Top-level</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#system"><code class="docutils literal notranslate"><span class="pre">system</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#components"><code class="docutils literal notranslate"><span class="pre">components</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#derived"><code class="docutils literal notranslate"><span class="pre">derived</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-specific"><code class="docutils literal notranslate"><span class="pre">step_specific</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparator">Comparator</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-rules">Comparison rules</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#failure-report">Failure report</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#in-flowchart-vs-out-of-flowchart-testing">In-flowchart vs. out-of-flowchart testing</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#harness-pattern">Harness pattern</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regeneration-and-update-policy">Regeneration and update policy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#smiles-caveats-and-fallbacks">SMILES caveats and fallbacks</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tolerance-defaults-packmol-specific-starting-points">Tolerance defaults (Packmol-specific starting points)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#decisions-resolved">Decisions (resolved)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#open-questions">Open questions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation-notes-for-step-1-the-golden-test-step-itself">Implementation notes for step 1 (the Golden Test step itself)</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../../../_sources/developer_guide/campaigns/2026-05-20/NOTES_golden_tests_design.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.20.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
