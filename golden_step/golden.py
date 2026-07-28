@@ -176,7 +176,7 @@ class Golden(seamm.Node):
 
         if mode == "verify":
             # Locate golden_expected.json relative to the flowchart directory
-            expected_path = self.file_path(P["expected file"])
+            expected_path = self.file_path(P["expected file"], read_only=True)
 
             if not expected_path.exists():
                 msg = "Expected file not found: {}".format(expected_path)
